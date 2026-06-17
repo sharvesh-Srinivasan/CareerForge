@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "CareerForge Clipper",
+  "version": "1.0.0",
+  "description": "Auto-extract job and hackathon details and save to CareerForge in one click",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.unstop.com/*",
+    "https://*.internshala.com/*",
+    "https://*.linkedin.com/*",
+    "https://*.devfolio.co/*",
+    "https://*.hackerearth.com/*",
+    "https://*.naukri.com/*",
+    "https://*.wellfound.com/*",
+    "https://*.leetcode.com/*",
+    "https://*.glassdoor.co.in/*",
+    "https://*.glassdoor.com/*",
+    "https://careerforge-backend.onrender.com/*",
+    "http://localhost:4000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

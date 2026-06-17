@@ -1,0 +1,369 @@
+/* ─── Base ─────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 380px;
+  min-height: 200px;
+  max-height: 600px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #F8FAFC;
+  color: #0F172A;
+  overflow-x: hidden;
+}
+
+/* ─── Header ────────────────────────────────────────────── */
+.header {
+  background: white;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  background: #2563EB;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 14px;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+}
+
+.logo-badge {
+  font-size: 10px;
+  font-weight: 500;
+  color: #2563EB;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 4px;
+  padding: 1px 5px;
+  margin-left: 2px;
+}
+
+.btn-logout {
+  color: #94A3B8;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.btn-logout:hover {
+  color: #EF4444;
+  background: #FEF2F2;
+}
+
+/* ─── Content ───────────────────────────────────────────── */
+.content {
+  padding: 16px;
+}
+
+/* ─── States ────────────────────────────────────────────── */
+.state { display: none; }
+.state.active { display: block; }
+
+/* ─── Login State ───────────────────────────────────────── */
+.login-state {
+  text-align: center;
+  padding: 28px 16px;
+}
+
+.login-illustration {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 24px;
+}
+
+.login-state h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 6px;
+}
+
+.login-state p {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+/* ─── Loading State ─────────────────────────────────────── */
+.loading-state {
+  text-align: center;
+  padding: 36px 16px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #E2E8F0;
+  border-top: 3px solid #2563EB;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 4px;
+}
+
+.loading-sub {
+  font-size: 12px;
+  color: #94A3B8;
+}
+
+/* ─── Form ──────────────────────────────────────────────── */
+.form-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 12.5px;
+  color: #0F172A;
+  background: white;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus,
+.form-select:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px #EFF6FF;
+}
+
+.form-input.error {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 3px #FEF2F2;
+}
+
+/* ─── Divider ───────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid #E2E8F0;
+  margin: 12px 0;
+}
+
+/* ─── Checkbox Row ──────────────────────────────────────── */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #0F172A;
+  margin-bottom: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #2563EB;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+.btn-primary {
+  width: 100%;
+  background: #2563EB;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn-primary:hover:not(:disabled) { background: #1D4ED8; }
+.btn-primary:active:not(:disabled) { transform: scale(0.98); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-secondary {
+  flex: 1;
+  background: white;
+  color: #374151;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  padding: 9px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-secondary:hover { background: #F8FAFC; border-color: #CBD5E1; }
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ─── Button Spinner ────────────────────────────────────── */
+.btn-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+/* ─── Success State ─────────────────────────────────────── */
+.success-state {
+  text-align: center;
+  padding: 28px 16px;
+}
+
+.success-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.success-state h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #16A34A;
+  margin-bottom: 8px;
+}
+
+.success-detail {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.success-reminder {
+  font-size: 11px;
+  color: #2563EB;
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 10px 0 16px;
+  display: inline-block;
+}
+
+/* ─── Error State ───────────────────────────────────────── */
+.error-state {
+  text-align: center;
+  padding: 28px 16px;
+}
+
+.error-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.error-state h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #DC2626;
+  margin-bottom: 6px;
+}
+
+.error-detail {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+/* ─── Toast ─────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  background: #0F172A;
+  color: white;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: none;
+  animation: slideUp 0.2s ease;
+  z-index: 999;
+}
+
+.toast.show { display: block; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Tip ───────────────────────────────────────────────── */
+.tip {
+  font-size: 10.5px;
+  color: #94A3B8;
+  text-align: center;
+  padding-top: 8px;
+}

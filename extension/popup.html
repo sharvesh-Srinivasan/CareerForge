@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerForge Clipper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ─── Header ─────────────────────────────────────────── -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">CareerForge</span>
+      <span class="logo-badge">Clipper</span>
+    </div>
+    <button class="btn-logout" id="btn-logout" style="display:none">Logout</button>
+  </header>
+
+  <!-- ─── States ─────────────────────────────────────────── -->
+  <div class="content">
+
+    <!-- NOT LOGGED IN -->
+    <div class="state active login-state" id="state-login">
+      <div class="login-illustration">🎯</div>
+      <h2>Save jobs in one click</h2>
+      <p>Login to start clipping job postings, hackathons,<br/>and internships automatically from any site.</p>
+      <button class="btn-primary" id="btn-login">
+        Login to CareerForge
+      </button>
+      <p class="tip" style="margin-top:12px">After logging in, come back to this tab</p>
+    </div>
+
+    <!-- LOADING -->
+    <div class="state loading-state" id="state-loading">
+      <div class="spinner"></div>
+      <p class="loading-title">Extracting details...</p>
+      <p class="loading-sub">Reading page with AI ✨</p>
+    </div>
+
+    <!-- EXTRACTED FORM -->
+    <div class="state" id="state-extracted">
+      <div class="form-row">
+        <label class="form-label">Company</label>
+        <input class="form-input" id="f-company" type="text" placeholder="e.g. Amazon" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Role</label>
+        <input class="form-input" id="f-role" type="text" placeholder="e.g. SDE Intern" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="f-type">
+          <option value="Job">Job</option>
+          <option value="Internship">Internship</option>
+          <option value="Hackathon">Hackathon</option>
+          <option value="OA">OA</option>
+          <option value="Fellowship">Fellowship</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label class="form-label">Location</label>
+        <input class="form-input" id="f-location" type="text" placeholder="e.g. Bangalore / Remote" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Package</label>
+        <input class="form-input" id="f-package" type="text" placeholder="e.g. ₹60,000/month" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Deadline</label>
+        <input class="form-input" id="f-deadline" type="date" />
+      </div>
+      <div class="form-row">
+        <label class="form-label">Link</label>
+        <input class="form-input" id="f-link" type="url" placeholder="Application URL" />
+      </div>
+
+      <hr class="divider" />
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="cb-reminder" checked />
+        Set reminder 3 days before deadline
+      </label>
+      <label class="checkbox-row" id="row-whatsapp" style="display:none">
+        <input type="checkbox" id="cb-whatsapp" />
+        Send WhatsApp reminder
+      </label>
+
+      <hr class="divider" />
+
+      <button class="btn-primary" id="btn-save">
+        Add to CareerForge
+      </button>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="state success-state" id="state-success">
+      <span class="success-icon">✅</span>
+      <h2>Saved successfully!</h2>
+      <p class="success-detail" id="success-detail">Application added to CareerForge.</p>
+      <div class="success-reminder" id="success-reminder" style="display:none"></div>
+      <button class="btn-primary" id="btn-view" style="margin-top:8px">View in CareerForge</button>
+    </div>
+
+    <!-- ERROR -->
+    <div class="state error-state" id="state-error">
+      <span class="error-icon">⚠️</span>
+      <h2 id="error-title">Could not extract details</h2>
+      <p class="error-detail" id="error-detail">This page may not contain job or hackathon information.</p>
+      <div class="btn-row">
+        <button class="btn-secondary" id="btn-retry">Try Again</button>
+        <button class="btn-secondary" id="btn-manual">Manual Add</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+name: CareerForge CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy-backend:
+    name: Build & Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/careerforge-server:latest \
+                       -t ghcr.io/${{ github.repository_owner }}/careerforge-server:sha-${{ github.sha }} \
+                       ./server
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/careerforge-server:latest
+          docker push ghcr.io/${{ github.repository_owner }}/careerforge-server:sha-${{ github.sha }}
+
+      - name: Trigger Render Deploy
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK_SERVER }}"
+
+  # Frontend is auto-deployed by Vercel on push to main
+  # No additional workflow step needed
