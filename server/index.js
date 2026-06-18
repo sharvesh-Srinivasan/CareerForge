@@ -8,6 +8,7 @@ const applicationRoutes = require('./routes/applicationRoutes');
 const interviewRoutes = require('./routes/interviewRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 const { startReminderJob } = require('./jobs/reminderJob');
 
 const app = express();
@@ -41,6 +42,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/interviews', interviewRoutes);
 app.use('/api/resumes', resumeRoutes);
 app.use('/api/reminders', reminderRoutes);
+app.use('/api/ai', aiRoutes);
 
 // ─── 404 Handler ─────────────────────────────────────────────────────────────
 app.use((_req, res) => {

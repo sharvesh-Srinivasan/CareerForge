@@ -1,6 +1,6 @@
 // popup.js — CareerForge Clipper
 
-const CAREERFORGE_URL = 'http://localhost:5173'; // Change to your production URL
+const CAREERFORGE_URL = 'https://careerforge.vercel.app'; // Change to your production URL
 
 // ─── State helpers ─────────────────────────────────────────────────────────────
 const states = ['login', 'loading', 'extracted', 'success', 'error'];
@@ -98,6 +98,7 @@ async function runExtraction() {
       content: pageData.content,
       title:   pageData.title,
       url:     pageData.url,
+      token:   currentToken,
     });
 
     if (!extractRes.success) {

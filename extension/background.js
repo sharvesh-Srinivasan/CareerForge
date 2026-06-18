@@ -1,70 +1,26 @@
 // background.js — CareerForge Clipper Service Worker
 
 // ─── Config ──────────────────────────────────────────────────────────────────
-// IMPORTANT: Replace with your actual Gemini API key
-// Get a FREE key at: https://aistudio.google.com/app/apikey
-const GEMINI_API_KEY = 'AIzaSyAIrwaCSXN06HUyNNReXoQtL6ZhcdcBiw8';
-const BACKEND_URL = 'http://localhost:4000'; // Change to your production URL when deployed
+const BACKEND_URL = 'https://careerforge-backend.onrender.com'; // Change to your production URL when deployed
 
-// ─── Gemini AI Extraction ─────────────────────────────────────────────────────
-async function extractWithGemini(content, title, url) {
-  const prompt = `You are extracting job/hackathon/internship details from a webpage. Extract and return ONLY a valid JSON object with these exact fields. If a field cannot be found, set it to null. Do not return any text, explanation, or markdown outside the JSON object.
-
-{
-  "company_name": "company or organiser name",
-  "role": "job title, internship role, or hackathon name",
-  "location": "city or Remote or Online or null",
-  "package": "salary or stipend as a string or null",
-  "deadline": "application deadline as YYYY-MM-DD or null",
-  "type": "one of exactly: Job / Internship / Hackathon / OA / Fellowship",
-  "application_link": "${url}"
-}
-
-Page Title: ${title}
-
-Page Content:
-${content}`;
-
-  let response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`, {
+// ─── AI Extraction via Backend ────────────────────────────────────────────────
+async function extractViaBackend(content, title, url, token) {
+  const response = await fetch(`${BACKEND_URL}/api/ai/extract`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.1 }
-    }),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ content, title, url }),
   });
 
-  // Fallback if the primary model is overloaded
-  if (response.status === 503 || response.status === 429) {
-    response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.1 }
-      }),
-    });
-  }
-
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${errText}`);
-  }
-
   const data = await response.json();
-  let text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-  // Gemini sometimes returns json block markers
-  text = text.replace(/```json/g, '').replace(/```/g, '').trim();
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    // Try to extract JSON from any surrounding text
-    const match = text.match(/\{[\s\S]*\}/);
-    if (match) return JSON.parse(match[0]);
-    throw new Error('Could not parse AI response as JSON');
+  if (!data.success) {
+    throw new Error(data.message || 'Failed to extract details via AI');
   }
+
+  return data.data;
 }
 
 // ─── Save Application ─────────────────────────────────────────────────────────
@@ -120,7 +76,7 @@ async function saveApplication(applicationData, token) {
 // ─── Message Router ───────────────────────────────────────────────────────────
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'extractDetails') {
-    extractWithGemini(request.content, request.title, request.url)
+    extractViaBackend(request.content, request.title, request.url, request.token)
       .then((details) => sendResponse({ success: true, data: details }))
       .catch((err) => sendResponse({ success: false, error: err.message }));
     return true; // Keep channel open for async
